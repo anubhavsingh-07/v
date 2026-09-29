@@ -1,107 +1,71 @@
 #include <iostream>
 using namespace std;
 
-class Matrix {
+class Complex {
 private:
-    int** data;
-    int rows;
-    int cols;
+    double real;
+    double imaginary;
 
 public:
-    Matrix(int rows, int cols) : rows(rows), cols(cols) {
-        data = new int*[rows];
-        for (int i = 0; i < rows; i++) {
-            data[i] = new int[cols];
-        }
+    Complex():real(0.0),imaginary(0.0) {}
+	Complex(double r,double i):real(r),imaginary(i) {}
+
+    
+    Complex operator+(const Complex& other) {
+        return Complex(real + other.real, imaginary + other.imaginary);
     }
 
-    // Destructor
-    ~Matrix() {
-        for (int i = 0; i < rows; i++) {
-            delete[] data[i];
-        }
-        delete[] data;
+    
+    Complex operator-(const Complex& other) {
+        return Complex(real - other.real, imaginary - other.imaginary);
     }
 
-    // Copy constructor
-    Matrix(const Matrix &other) : rows(other.rows), cols(other.cols) {
-        data = new int*[rows];
-        for (int i = 0; i < rows; i++) {
-            data[i] = new int[cols];
-            for (int j = 0; j < cols; j++) {
-                data[i][j] = other.data[i][j];
-            }
-        }
+    
+    Complex operator*(const Complex& other) {
+        return Complex(real * other.real - imaginary * other.imaginary,
+                       real * other.imaginary + imaginary * other.real);
     }
 
-    // Assignment operator overloading
-    Matrix& operator=(const Matrix &other) {
-        if (this == &other) {
-            return *this;
-        }
+    
+    Complex(int integer) : real(static_cast<double>(integer)), imaginary(0.0) {}
 
-        // Delete current data
-        for (int i = 0; i < rows; i++) {
-            delete[] data[i];
-        }
-        delete[] data;
+    
+    Complex(double realPart) : real(realPart), imaginary(0.0) {}
 
-        // Copy data from other
-        rows = other.rows;
-        cols = other.cols;
-        data = new int*[rows];
-        for (int i = 0; i < rows; i++) {
-            data[i] = new int[cols];
-            for (int j = 0; j < cols; j++) {
-                data[i][j] = other.data[i][j];
-            }
-        }
-
-        return *this;
+    
+    operator double() const {
+        return real;
     }
 
-    void input() {
-        std::cout << "Enter matrix elements:" << std::endl;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                std::cin >> data[i][j];
-            }
-        }
-    }
-
-    void print() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                std::cout << data[i][j] << ' ';
-            }
-         cout <<endl;
-        }
+    void display() {
+        if (imaginary >= 0)
+            std::cout << real << " + " << imaginary << "i" << std::endl;
+        else
+            std::cout << real << " - " << -imaginary << "i" << std::endl;
     }
 };
 
 int main() {
-    int rows, cols;
-    cout << "Enter the number of rows and columns for Matrix 1: ";
-    cin >> rows >> cols;
+    Complex a(3, 2);
+    Complex b(1, -1);
 
-    Matrix mat1(rows, cols);
-    mat1.input();
+    Complex c = a + b;
+    Complex d = a - b;
+    Complex e = a * b;
 
-    Matrix mat2(2, 2);
-    mat2.input();
+    c.display();
+    d.display();
+    e.display();
 
-    Matrix mat3 = mat1;
+    int integer = 5;
+    Complex f = integer;
+    double realNumber = 2.5;
+    Complex g = realNumber;
+    double realPart = static_cast<double>(a);
 
-    cout << "Matrix 1:" << endl;
-    mat1.print();
-    cout << "Matrix 3 (Copy of Matrix 1):" << endl;
-    mat3.print();
-
-    mat2 = mat1;
-
-    cout << "Matrix 2 (Assigned from Matrix 1):" <<endl;
-    mat2.print();
+    f.display();
+    g.display();
+    std::cout << "Real part of a: " << realPart << std::endl;
 
     return 0;
 }
-
