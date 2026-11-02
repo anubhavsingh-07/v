@@ -1,71 +1,95 @@
-#include <iostream>
+#include<iostream>
+
 using namespace std;
 
-class Complex {
-private:
-    double real;
-    double imaginary;
+class B // Base class
 
-public:
-    Complex():real(0.0),imaginary(0.0) {}
-	Complex(double r,double i):real(r),imaginary(i) {}
+{
 
-    
-    Complex operator+(const Complex& other) {
-        return Complex(real + other.real, imaginary + other.imaginary);
-    }
+                public:
 
-    
-    Complex operator-(const Complex& other) {
-        return Complex(real - other.real, imaginary - other.imaginary);
-    }
+                        virtual void Display(void) // virtual function
 
-    
-    Complex operator*(const Complex& other) {
-        return Complex(real * other.real - imaginary * other.imaginary,
-                       real * other.imaginary + imaginary * other.real);
-    }
+                        {
 
-    
-    Complex(int integer) : real(static_cast<double>(integer)), imaginary(0.0) {}
+                                cout << "\n The member function Display( ) " ;
 
-    
-    Complex(double realPart) : real(realPart), imaginary(0.0) {}
+                                cout <<       "of the \"Base Class B\" is invoked \n" ;
 
-    
-    operator double() const {
-        return real;
-    }
+                        }
 
-    void display() {
-        if (imaginary >= 0)
-            std::cout << real << " + " << imaginary << "i" << std::endl;
-        else
-            std::cout << real << " - " << -imaginary << "i" << std::endl;
-    }
 };
 
-int main() {
-    Complex a(3, 2);
-    Complex b(1, -1);
+class D1 : public B // First derived class
 
-    Complex c = a + b;
-    Complex d = a - b;
-    Complex e = a * b;
+{
 
-    c.display();
-    d.display();
-    e.display();
+                public:
 
-    int integer = 5;
-    Complex f = integer;
-    double realNumber = 2.5;
-    Complex g = realNumber;
-    double realPart = static_cast<double>(a);
+                        void Display(void)
 
-    f.display();
-    g.display();
-    std::cout << "Real part of a: " << realPart << std::endl;
+                        {
 
-    return 0;
+                                cout << "\n The member function Display( ) " ;
+
+                                cout <<  "of the \"Derived Class D1\" is invoked \n" ;
+
+                        }
+
+};
+
+
+class D2 : public B  // Second derived class
+
+{
+
+                public:
+
+                     void Display(void)
+
+                     {
+
+                        cout << "\n The member function Display() " ;
+
+                        cout << "of the \"Derived Class D2\" is invoked " ;
+
+                     }
+
+};
+
+
+int main()
+
+{
+
+        B* base_ptr ; // Pointer to the object of the base class
+
+
+        D1 der1_obj ;  // Object of the first derived class D1
+
+
+        base_ptr = &der1_obj ; /* The address of the object der1_obj of the
+
+                                     first derived class D1 is assigned to the
+
+                                     pointer base_ptr of the base class B     */
+
+
+        base_ptr->Display( );    // Accessing the member function Display( )
+
+
+        D2 der2_obj ;  // Object of the second derived class D2
+
+
+        base_ptr = &der2_obj ;  /* The address of the object der2_obj of the
+
+                                     second derived class D2  is assigned to the
+
+                                      pointer base_ptr of the base class B */
+
+
+        base_ptr->Display( );    // Accessing the member function Display( )
+
+return 0;
+
 }
