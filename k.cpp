@@ -1,3 +1,5 @@
+Practical-6.docx
+Design a simple test application to demonstrate dynamic polymorphism and RTTI.
 #include<iostream>
 
 using namespace std;
@@ -91,5 +93,62 @@ int main()
         base_ptr->Display( );    // Accessing the member function Display( )
 
 return 0;
+
+}
+
+
+Output:
+
+
+
+
+
+
+Design a simple test application to demonstrate RTTi
+#include <iostream>
+
+using namespace std;
+
+ 
+
+// Initialization of base class
+
+class B {
+
+    virtual void fun() {}
+
+};
+
+ 
+
+// Initialization of Derived class
+
+class D : public B {
+
+};
+
+ 
+
+// Driver Code
+
+int main()
+
+{
+
+    B* b = new D; // Base class pointer
+
+    D* d = dynamic_cast<D*>(b); // Derived class pointer
+
+    if (d != NULL)
+
+        cout << "works";
+
+    else
+
+        cout << "cannot cast B* to D*";
+
+    getchar();
+
+    return 0;
 
 }
